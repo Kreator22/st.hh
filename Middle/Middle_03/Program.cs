@@ -1,4 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 Console.ReadLine();
@@ -289,7 +291,13 @@ public class CorrectService : Service
 {
     public CorrectService(string serviceId) : base(serviceId) { }
     public override string GetActivityReport() =>
-    $"{{\"service\":\"{ServiceId}\",\"read\":{ReadCount},\"write\":{WriteCount}}}";
+        JsonSerializer.Serialize(new
+        {
+            service = ServiceId,
+            read = ReadCount,
+            write = WriteCount
+        });
+    //$"{{\"service\":\"{ServiceId}\",\"read\":{ReadCount},\"write\":{WriteCount}}}";
     //{"service":"40016","read":6,"write":1}
 }
 
